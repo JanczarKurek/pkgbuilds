@@ -1,0 +1,23 @@
+# Maintainer: Janczar Knurek <janczar.kurek@student.uj.edu.pl>
+pippkgname=xontrib-fish-completer
+pkgname=python-"${pippkgname}"
+pkgver=0.0.1
+pkgrel=1
+pkgdesc="Populate rich completions using fish and remove the default bash based completer."
+arch=(any)
+url=https://github.com/xonsh/xontrib-fish-completer
+license=(MIT)
+depends=(python fish xonsh)
+makedepends=(python python-build python-installer python-wheel python-setuptools)
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/xonsh/${pippkgname}/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=("f0cc9cba4a70e00ef7f0051e9603afdbcd26519dedf3e8d781452396b3f36e81")
+
+build() {
+  cd ${pippkgname}-$pkgver
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  cd ${pippkgname}-$pkgver
+  python -m installer --destdir="$pkgdir" dist/*.whl
+}
